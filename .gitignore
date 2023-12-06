@@ -1,0 +1,7 @@
+*.css
+*.css.map
+dist
+node_modules
+.fullstacked-sync
+script.js
+demo/demo.js
