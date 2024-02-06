@@ -41,6 +41,21 @@ h4 {
     font-weight: 900;
 }
 
+#banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: $blue;
+    text-align: center;
+    z-index: 10;
+    padding: spacing();
+    font-weight: bolder;
+    a {
+        text-decoration: underline;
+    }
+}
+
 header {
     height: 100px;
     display: flex;

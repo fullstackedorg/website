@@ -1,11 +1,14 @@
 
-const map = document.querySelector("#map");
+const map = document.querySelector<HTMLElement>("#map");
 const zoom = document.querySelector<HTMLDivElement>("#zoom");
-const zoomBB = zoom.getBoundingClientRect();
-const highResImage = zoom.querySelector<HTMLImageElement>(":scope > img");
+const zoomBB = zoom?.getBoundingClientRect();
+const highResImage = zoom?.querySelector<HTMLImageElement>(":scope > img");
 const scaleFactor = 2;
-map.addEventListener("mousemove", (e:MouseEvent) => {
-    const smallImageBB = map.querySelector(":scope > img").getBoundingClientRect();
+map?.addEventListener("mousemove", (e: MouseEvent) => {
+    const smallImageBB = map.querySelector(":scope > img")?.getBoundingClientRect();
+    if(!smallImageBB || !zoom || !zoomBB || !highResImage)
+      return;
+
     const [x, y] = [e.clientX - smallImageBB.x, e.clientY - smallImageBB.y];
 
     if(x > smallImageBB.width || y > smallImageBB.height){
@@ -48,17 +51,17 @@ if(window.navigator.userAgent.toLocaleLowerCase().includes("windows")){
 }
 
 const successIconFromDOM = document.querySelector("#success-icon");
-const successIcon = successIconFromDOM.cloneNode(true) as HTMLElement;
-successIconFromDOM.remove();
+const successIcon = successIconFromDOM?.cloneNode(true) as HTMLElement;
+successIconFromDOM?.remove();
 successIcon.style.display = "inline-block";
 
 
 document.querySelectorAll(".copy").forEach(element => {
-    const text = element.querySelector("span").innerText;
+    const text = element.querySelector("span")?.innerText;
 
     element.addEventListener("click", () => {
         var textArea = document.createElement("textarea");
-        textArea.value = text;
+        textArea.value = text as string;
         textArea.style.opacity = "0";
         textArea.style.position = "fixed";
         textArea.style.top = "0";
@@ -73,6 +76,7 @@ document.querySelectorAll(".copy").forEach(element => {
         textArea.remove();
 
         const icon = element.querySelector("svg");
+        if(!icon) return;
         const originalIcon = icon.cloneNode(true);
         const successIconClone = successIcon.cloneNode(true);
         element.replaceChild(successIconClone, icon);
@@ -81,6 +85,22 @@ document.querySelectorAll(".copy").forEach(element => {
 });
 
 const header = document.querySelector("header")
-document.querySelector("#menu-icon").addEventListener("click", () => {
-    header.classList.toggle("open");
+document.querySelector("#menu-icon")?.addEventListener("click", () => {
+    header?.classList.toggle("open");
 })
+
+const adjustTopWithBanner = () => {
+  const banner = document.querySelector("#banner");
+  const main = document.querySelector("main")
+  
+  if(banner && header && main) {
+    const bannerHeight = banner.getBoundingClientRect().height;
+    header.style.top = bannerHeight + "px";
+    main.style.marginTop = bannerHeight + "px";
+  }
+}
+
+adjustTopWithBanner();
+window.addEventListener("resize", adjustTopWithBanner);
+
+
