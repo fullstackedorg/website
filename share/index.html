@@ -34,9 +34,15 @@
         <script>
             const searchParams = new URLSearchParams(window.location.search);
             const gitURL = searchParams.get("git");
-            document.querySelector("div").innerText = gitURL || "No git in url";
-            if(gitURL)
-                window.location.href = "fullstacked://" + gitURL;
+            const div = document.querySelector("div");
+            div.innerText = gitURL || "No git in url";
+            
+            const deeplink = () => {
+                if(gitURL)
+                    window.location.href = "fullstacked://" + gitURL;
+            }
+            deeplink();
+            div.addEventListener("click", deeplink);
         </script>
     </body>
 </html>
