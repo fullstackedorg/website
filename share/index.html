@@ -25,27 +25,11 @@
 
     </head>
     <body>
-        <img src="../images/app-icon-dev.PNG" />
-        <h1>FullStacked Editor</h1>
-        <p>You are trying to open</p>
-        <div></div>
-        <p>Make sure you have FullStacked Editor installed.</p>
-        <a href="https://github.com/fullstackedorg/editor/releases/latest" target="_blank">
-            Download Page
-        </a>
-
         <script>
-            const searchParams = new URLSearchParams(window.location.search);
-            const gitURL = searchParams.get("git");
-            const div = document.querySelector("div");
-            div.innerText = gitURL || "No git in url";
-            
-            const deeplink = () => {
-                if(gitURL)
-                    window.location.href = "fullstacked://" + gitURL;
-            }
-            deeplink();
-            div.addEventListener("click", deeplink);
+            const url = new URL(window.location.href);
+            url.pathname = url.pathname.slice("/share".length);
+            url.hostname = share.fullstacked.org;
+            window.location.href = url.toString();
         </script>
     </body>
 </html>
