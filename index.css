@@ -64,6 +64,7 @@ svg {
 
 p:last-child {
     & > a {
+        margin: 0 2px;
         text-decoration: none
     }
 }
