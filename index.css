@@ -7,41 +7,64 @@
 :root {
     --blue: #00b0df;
     --blue-dark: #1e293b;
+    --blue-light: #2c3647;
     --spacing: 20px;
 }
 
 html, body{
-    background-color: var(--blue-dark);
+    background-color: var(--blue-light);
     color: white;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Noto Color Emoji';
     height: 100%;
     width: 100%;
+    margin: 0;
 }
 
-html {
-    display: table;
-    margin: auto;
-}
-
-body {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
+header, main {
+    background-color: var(--blue-dark);
     padding: var(--spacing);
 }
 
-img {
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 100px;
-    width: 100px;
+}
+
+main {
+    min-height: calc(100dvh - 140px);
+    display: grid;
+    grid-template-rows: 1.75fr 1fr;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+    height: 100%;
+}
+
+#logo img {
+    height: 100%;
+    aspect-ratio: 1/1;
     object-fit: contain;
 }
 
-h1, h3, p, div {
-    margin: var(--spacing) 0;
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+    list-style-type: none;
 }
 
-h3 {
-    color: rgba(255,255,255,0.8);
+h1 {
+    text-transform: capitalize;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
 }
 
 p {
@@ -62,19 +85,23 @@ svg {
     width: 20px;
 }
 
-p:last-child {
-    & > a {
-        margin: 0 2px;
-        text-decoration: none
-    }
+#features {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing);
 }
 
-div {
-    background-color: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.5);
-    padding: var(--spacing);
-    border-radius: 3px;
-    display: inline-block;
-    width: calc(100% - 20px);
-    overflow: auto;
+#features > div {
+    flex: 1
+}
+
+footer {
+    text-align: center;
+    font-size: small;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--spacing);
+    text-align: center;
 }
