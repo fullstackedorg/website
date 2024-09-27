@@ -8,6 +8,9 @@
     --blue: #9cd1ec;
     --blue-dark: #1e293b;
     --blue-light: #2c3647;
+    --blue-button: #39414e;
+    --blue-button-hover: #536076;
+    --blue-accent: #04b8ec;
     --spacing: 20px;
 }
 
@@ -35,7 +38,15 @@ header {
 main {
     min-height: calc(100dvh - 110px);
     display: grid;
+}
+
+#home {
     grid-template-rows: 1.6fr 1fr
+}
+
+#download {
+    grid-template-rows: 1.2fr 1fr;
+    text-align: center;
 }
 
 #logo {
@@ -79,12 +90,13 @@ nav a {
     opacity: 0.8;
 }
 
-nav a:hover {
+nav a:hover,
+nav a.active {
     opacity: 1;
 }
 
 #title {
-    border-bottom: 1px solid #04b8ec;
+    border-bottom: 1px solid var(--blue-accent);
     box-shadow: 0 10px 30px #2175be9e;
     position: relative;
     display: flex;
@@ -107,23 +119,26 @@ h1 span {
     display: inline-block
 }
 
-#title a {
-    background-color: #04b8ec;
+.btn {
+    display: inline-block;
+    background-color: var(--blue-button);
     text-decoration: none;
-    padding: 10px 15px 10px 20px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-weight: bold;
+    margin: 3px 0;
     transition: 0.2s background-color;
 }
 
-#title a:hover {
-    background-color: #129ad6;
+.btn:hover {
+    background-color: var(--blue-button-hover);
 }
 
-#title a svg {
-    height: 20px;
-    vertical-align: middle;
-    margin-left: 6px;
+.btn svg {
+    height: 20px!important;
+    vertical-align: text-bottom;
+    margin-right: 6px;
+    margin-left: -2px;
 }
 
 p {
@@ -146,6 +161,9 @@ nav svg {
 
 section {
     background-color: var(--blue-light);
+}
+
+#home-lower {
     display: flex;
     align-items: center;
     height: 100%:
@@ -218,6 +236,55 @@ footer {
 }
 
 
+code {
+    display: block;
+    background-color: var(--blue-light);
+    border-radius: 5px;
+    text-align: left;
+    border: 1px solid var(--blue-button-hover);
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+
+code > div {
+    padding: var(--spacing) 60px var(--spacing) var(--spacing);
+    white-space: nowrap;
+    overflow: auto;
+}
+
+code > button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: calc(100% - 20px);
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--blue-button);
+    color: white;
+    border: 1px solid var(--blue-button-hover);
+    border-radius: 3px;
+}
+
+code > button > svg {
+    height: 15px;
+}
+
+code:hover {
+    background-color: var(--blue-button);
+}
+code:hover > button {
+    background-color: var(--blue-button-hover);
+}
+
+code > button.success {
+    border-color: var(--blue-accent);
+    color: var(--blue-accent);
+}
+
 
 @media screen and (max-width: 768px) {
     nav {
@@ -287,18 +354,46 @@ footer {
     }
 }
 
+.dl-list {
+    text-align: center;
+    list-style-type: none;
+    width: 100%;
+    max-width: 1250px;
+    padding: 0;
+    margin: var(--spacing) auto;
+}
+
+.dl-list > li {
+    width: 33%;
+    padding: var(--spacing);
+    display: inline-block;
+    vertical-align: top;
+    min-width: 290px;
+}
+
+.dl-list > li > svg {
+    height: 50px;
+    width: auto;
+    display: block;
+    margin: 0 auto var(--spacing);
+}
+
+
 @media screen and (max-width: 960px) {
-    main {
+    #home {
         grid-template-rows: 1fr;
     }
     #features {
         grid-template-columns: repeat(2, 1fr);
     }
+    .dl-list > li {
+        width: 48%;
+    }
 }
 
 @media screen and (max-width: 768px) {
     main {
-        grid-template-rows: auto
+        grid-template-rows: auto!important;
     }
     #title h1 {
         max-width: 400px;
@@ -309,6 +404,9 @@ footer {
 }
 
 @media screen and (max-width: 450px) {
+    .dl-list > li {
+        width: 100%;
+    }
     footer {
         flex-direction: column;
     }
