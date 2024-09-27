@@ -259,7 +259,7 @@ code > button {
     right: 10px;
     top: 10px;
     height: calc(100% - 20px);
-    aspect-ratio: 1/1;
+    width: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
