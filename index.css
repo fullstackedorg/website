@@ -238,7 +238,7 @@ footer {
 
 
 code {
-    display: block;
+    display: grid;
     background-color: var(--blue-light);
     border-radius: 5px;
     text-align: left;
