@@ -321,7 +321,7 @@ code > button.success {
     
     nav a {
         display: inline-block;
-        min-width: 120px;
+        min-width: 60px;
         padding: 10px 0;
     }
     
