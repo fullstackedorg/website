@@ -23,6 +23,14 @@ html, body{
     margin: 0;
 }
 
+#banner {
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--blue-accent);
+    padding: 10px;
+}
+
 header {
     padding: 10px var(--spacing);
     display: flex;

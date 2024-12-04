@@ -7,11 +7,12 @@ async function getLatestRelease() {
 }
 
 async function getMainVersion() {
-    const response = await fetch(
-        "https://raw.githubusercontent.com/fullstackedorg/editor/refs/heads/main/package.json"
-    );
-    const { version } = await response.json();
-    return version;
+    // const response = await fetch(
+    //     "https://raw.githubusercontent.com/fullstackedorg/editor/refs/heads/main/package.json"
+    // );
+    // const { version } = await response.json();
+    // return version;
+    return "0.10.0"
 }
 
 async function getLatestCommit() {
@@ -80,8 +81,9 @@ Promise.all([
     version,
     commit
 ]) => {
-    const ref = commit.slice(0, 8);
-    document.querySelector("#beta-version").innerHTML = version + `<br /><small>${ref} (main)</small>`;
+    // const ref = commit.slice(0, 8);
+    document.querySelector("#beta-version").innerHTML = version 
+        // + `<br /><small>${ref} (main)</small>`;
 
     document.querySelector("#beta-darwin-arm64").href =
         downloadBaseURL +
