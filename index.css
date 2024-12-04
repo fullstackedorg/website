@@ -381,11 +381,24 @@ code > button.success {
     min-width: 290px;
 }
 
-.dl-list > li > svg {
+.dl-list > li > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.dl-list > li > svg,
+.dl-list > li > div > svg{
     height: 50px;
     width: auto;
+    margin-bottom: var(--spacing)
+}
+
+.dl-list > li > svg {
     display: block;
-    margin: 0 auto var(--spacing);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
