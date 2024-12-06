@@ -57,6 +57,10 @@ main {
     text-align: center;
 }
 
+#download ul li p span {
+    display: inline-block;
+}
+
 #logo {
     display: flex;
     align-items: center;
