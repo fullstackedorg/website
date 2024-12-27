@@ -119,12 +119,27 @@ nav a.active {
     padding: 40px 10px 50px;
 }
 
+#title div {
+    width: 100%;
+    max-width: 1000px;
+}
+
+#title img {
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    height: calc(100% + 5px);
+    top: -2px;
+}
+
 h1 {
     text-transform: capitalize;
-    text-align: center;
-    max-width: 780px;
+    text-align: left;
+    max-width: 650px;
     font-size: 50px;
     margin: 0;
+    position: relative;
+    text-shadow: 0 0 10px var(--blue-dark);
 }
 
 h1 span {
@@ -176,6 +191,7 @@ section {
 }
 
 #home-lower {
+    position: relative;
     display: flex;
     align-items: center;
     height: 100%:
@@ -423,8 +439,15 @@ code > button.success {
     main {
         grid-template-rows: auto!important;
     }
-    #title h1 {
-        max-width: 400px;
+    #title img {
+        order: 2;
+        max-height: 300px;
+        align-self: flex-end;
+        position: relative;
+        right: -10px;
+        top: 0px;
+        max-width: 100%;
+        height: auto;
     }
     #features {
         grid-template-columns: 1fr;
