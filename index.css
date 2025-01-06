@@ -120,17 +120,28 @@ nav a.active {
     z-index: 1;
 }
 
-#title div {
+#title > div {
     width: 100%;
     max-width: 1000px;
 }
 
-#title img {
+#title > img {
     position: absolute;
     z-index: 0;
     right: 0;
     height: calc(100% + 5px);
     top: -2px;
+}
+
+#open-in-fullstacked {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 5;
+}
+
+#open-in-fullstacked img {
+    width: 140px;
 }
 
 h1 {
@@ -440,7 +451,7 @@ code > button.success {
     main {
         grid-template-rows: auto!important;
     }
-    #title img {
+    #title > img {
         order: 2;
         max-height: 300px;
         align-self: flex-end;
