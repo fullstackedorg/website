@@ -32,7 +32,7 @@ Promise.all([
     version,
     commit
 ]) => {
-    // const ref = commit.slice(0, 8);
-    // document.querySelector("#beta-version").innerHTML = version 
-    //     + `<br /><small>${ref} (main)</small>`;
+    const ref = commit.slice(0, 8);
+    document.querySelector("#beta-version").innerHTML = version 
+        + `<br /><small>${ref} (main)</small>`;
 })
