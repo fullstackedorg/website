@@ -484,3 +484,9 @@ code > button.success {
         flex-direction: column;
     }
 }
+
+.npm {
+    margin-left: 0!important;
+    margin-right: 0!important;
+    width: 50px;
+}
