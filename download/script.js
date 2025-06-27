@@ -68,7 +68,7 @@ fetch(`${r2BaseUrl}/arm64/release.txt`)
     .then(({ major, minor, patch, build }) => {
         const versionStr = `${major}.${minor}.${patch}`;
         const dlUrl = `${r2BaseUrl}/arm64/${versionStr}/fullstacked-${versionStr}-${build}-linux-arm64`;
-        document.querySelector("#linux-arm64-gt").href =
+        document.querySelector("#linux-arm64-gtk").href =
             `${dlUrl}-gtk.deb`;
         document.querySelector("#linux-arm64-qt").href = `${dlUrl}-qt.deb`;
     });
