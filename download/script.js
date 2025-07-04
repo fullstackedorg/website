@@ -6,44 +6,23 @@ async function getLatestRelease() {
     return tag_name;
 }
 
-async function getMainVersion() {
-    const response = await fetch(
-        "https://raw.githubusercontent.com/fullstackedorg/fullstacked/refs/heads/main/package.json",
-    );
-    const { version } = await response.json();
-    return version;
-}
-
-async function getLatestCommit() {
-    const response = await fetch(
-        "https://api.github.com/repos/fullstackedorg/fullstacked/git/refs/heads/main",
-    );
-    const {
-        object: { sha },
-    } = await response.json();
-    return sha;
-}
-
 const downloadBaseURL = "https://files.fullstacked.org/releases";
 getLatestRelease().then((version) => {
     document.querySelector("#stable-version").innerText = version;
-});
-
-Promise.all([getMainVersion(), getLatestCommit()]).then(([version, commit]) => {
-    const ref = commit.slice(0, 8);
-    document.querySelector("#beta-version").innerHTML =
-        version + `<br /><small>${ref} (main)</small>`;
 });
 
 const r2BaseUrl = "https://files.fullstacked.org/linux-builds";
 
 fetch(`${r2BaseUrl}/x64/beta.txt`)
     .then((res) => res.json())
-    .then(({ major, minor, patch, build }) => {
+    .then(({ major, minor, patch, build, hash, branch }) => {
         const versionStr = `${major}.${minor}.${patch}`;
         const dlUrl = `${r2BaseUrl}/x64/${versionStr}/fullstacked-${versionStr}-${build}-linux-x64`;
         document.querySelector("#linux-x64-gtk-beta").href = `${dlUrl}-gtk.deb`;
         document.querySelector("#linux-x64-qt-beta").href = `${dlUrl}-qt.deb`;
+
+        document.querySelector("#beta-version").innerHTML =
+            `${major}.${minor}.${patch} (${build})<br /><small>${hash.slice(0, 8)} (${branch})</small>`;
     });
 fetch(`${r2BaseUrl}/arm64/beta.txt`)
     .then((res) => res.json())
@@ -68,7 +47,6 @@ fetch(`${r2BaseUrl}/arm64/release.txt`)
     .then(({ major, minor, patch, build }) => {
         const versionStr = `${major}.${minor}.${patch}`;
         const dlUrl = `${r2BaseUrl}/arm64/${versionStr}/fullstacked-${versionStr}-${build}-linux-arm64`;
-        document.querySelector("#linux-arm64-gtk").href =
-            `${dlUrl}-gtk.deb`;
+        document.querySelector("#linux-arm64-gtk").href = `${dlUrl}-gtk.deb`;
         document.querySelector("#linux-arm64-qt").href = `${dlUrl}-qt.deb`;
     });
