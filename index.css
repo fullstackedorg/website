@@ -44,7 +44,7 @@ header {
 }
 
 main {
-    min-height: calc(100dvh - 110px);
+    min-height: calc(100dvh - 130px);
     display: grid;
 }
 
@@ -278,12 +278,19 @@ section {
 footer {
     text-align: center;
     font-size: small;
-    height: 40px;
+    height: 60px;
     display: flex;
+    gap: 5px;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 0 var(--spacing);
     text-align: center;
+}
+
+footer > span {
+    display: flex;
+    gap: 10px;
 }
 
 
@@ -479,9 +486,6 @@ code > button.success {
 @media screen and (max-width: 450px) {
     .dl-list > li {
         width: 100%;
-    }
-    footer {
-        flex-direction: column;
     }
 }
 
