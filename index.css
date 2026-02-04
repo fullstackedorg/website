@@ -14,10 +14,23 @@
     --spacing: 20px;
 }
 
-html, body{
+html,
+body {
     background-color: var(--blue-dark);
     color: white;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Noto Color Emoji';
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        "Open Sans",
+        "Helvetica Neue",
+        sans-serif,
+        "Noto Color Emoji";
     height: 100%;
     width: 100%;
     margin: 0;
@@ -29,6 +42,10 @@ html, body{
     text-align: center;
     background-color: var(--blue-accent);
     padding: 10px;
+}
+
+#banner span {
+    display: inline-block;
 }
 
 header {
@@ -49,7 +66,7 @@ main {
 }
 
 #home {
-    grid-template-rows: 1.6fr 1fr
+    grid-template-rows: 1.6fr 1fr;
 }
 
 #download {
@@ -144,7 +161,7 @@ nav a.active {
     width: 140px;
 }
 
-h1 {
+#home h1 {
     font-size: 50px;
     margin: 0;
     max-width: 650px;
@@ -165,7 +182,7 @@ h1,
 }
 
 h1 span {
-    display: inline-block
+    display: inline-block;
 }
 
 .btn {
@@ -184,22 +201,23 @@ h1 span {
 }
 
 .btn svg {
-    height: 20px!important;
+    height: 20px !important;
     vertical-align: text-bottom;
     margin-right: 6px;
     margin-left: -2px;
 }
 
-p {
+p,
+blockquote {
     font-weight: normal;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 a {
     color: inherit;
     text-decoration: underline;
-    &:hover{
-        color: rgba(255,255,255,1);
+    &:hover {
+        color: rgba(255, 255, 255, 1);
     }
 }
 
@@ -245,7 +263,7 @@ section {
     height: 35px;
     margin-right: 15px;
     margin-bottom: 12px;
-    position: relative
+    position: relative;
 }
 
 #stack li {
@@ -294,7 +312,6 @@ footer > span {
     gap: 10px;
 }
 
-
 code {
     display: grid;
     background-color: var(--blue-light);
@@ -305,7 +322,6 @@ code {
     position: relative;
     cursor: pointer;
 }
-
 
 code > div {
     padding: var(--spacing) 60px var(--spacing) var(--spacing);
@@ -345,7 +361,6 @@ code > button.success {
     color: var(--blue-accent);
 }
 
-
 @media screen and (max-width: 768px) {
     nav {
         position: absolute;
@@ -369,20 +384,20 @@ code > button.success {
         height: auto;
         width: auto;
         padding: var(--spacing);
-        opacity: 1
+        opacity: 1;
     }
-    
+
     nav ul {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     nav a {
         display: inline-block;
         min-width: 80px;
         padding: 10px 0;
     }
-    
+
     #mobile-menu-open,
     #mobile-menu-close {
         height: 30px;
@@ -391,11 +406,11 @@ code > button.success {
         flex-direction: column;
         justify-content: space-between;
     }
-    
+
     #mobile-menu-close {
         align-self: flex-end;
     }
-    
+
     #mobile-menu-open > div,
     #mobile-menu-close > div {
         height: 3px;
@@ -404,11 +419,11 @@ code > button.success {
         background-color: #818792;
         transform-origin: 100% 50%;
     }
-    
+
     #mobile-menu-close > div:first-child {
         transform: rotate(45deg) translate(20px, 20px);
     }
-    
+
     #mobile-menu-close > div:last-child {
         transform: rotate(-45deg) translate(19px, -19px);
     }
@@ -439,11 +454,11 @@ code > button.success {
 }
 
 .dl-list > li > svg,
-.dl-list > li > div > svg{
+.dl-list > li > div > svg {
     height: 50px;
     max-width: 150px;
     width: auto;
-    margin-bottom: var(--spacing)
+    margin-bottom: var(--spacing);
 }
 
 .dl-list > li > svg {
@@ -451,7 +466,6 @@ code > button.success {
     margin-left: auto;
     margin-right: auto;
 }
-
 
 @media screen and (max-width: 960px) {
     #home {
@@ -467,7 +481,7 @@ code > button.success {
 
 @media screen and (max-width: 768px) {
     main {
-        grid-template-rows: auto!important;
+        grid-template-rows: auto !important;
     }
     #title > img {
         order: 2;
@@ -491,7 +505,49 @@ code > button.success {
 }
 
 .npm {
-    margin-left: 0!important;
-    margin-right: 0!important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     width: 50px;
+}
+
+.announcement {
+    width: 100%;
+    max-width: 790px;
+    margin: 0 auto;
+    padding: 40px var(--spacing);
+}
+
+.announcement p,
+.announcement blockquote,
+.announcement li {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.announcement h1,
+.announcement h2 {
+    text-align: center;
+}
+
+.announcement h3 {
+    margin-top: 30px;
+}
+
+.announcement h3,
+.announcement h4 {
+    margin-bottom: 5px;
+    color: white;
+}
+.announcement p,
+.announcement li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.announcement ul {
+    margin: 0;
+}
+
+blockquote {
+    font-style: italic;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
