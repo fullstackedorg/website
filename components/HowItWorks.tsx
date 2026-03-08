@@ -46,7 +46,7 @@ const CodeWindow: React.FC<{ title: string; children: React.ReactNode; rawCode: 
 const StepRow: React.FC<{
     number: string;
     title: string;
-    description: string;
+    description: React.ReactNode;
     codeBlock: React.ReactNode;
 }> = ({ number, title, description, codeBlock }) => (
     <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 py-16 border-b border-white/5 last:border-0 animate-fade-in opacity-0 [animation-fill-mode:forwards]">
@@ -55,9 +55,9 @@ const StepRow: React.FC<{
                 {number}
             </div>
             <h3 className="text-3xl md:text-4xl font-bold tracking-tight">{title}</h3>
-            <p className="text-lg text-white/60 leading-relaxed font-sans max-w-xl mx-auto lg:mx-0">
-                {description}
-            </p>
+            <div className="text-lg text-white/60 leading-relaxed font-sans max-w-xl mx-auto lg:mx-0 space-y-4">
+                {typeof description === 'string' ? <p>{description}</p> : description}
+            </div>
         </div>
         <div className="flex-1 w-full max-w-2xl">
             {codeBlock}
@@ -143,7 +143,12 @@ git push`}>
                 <StepRow
                     number="5"
                     title="Pull & Run Anywhere"
-                    description="Open the FullStacked app on any device (iOS, Android, macOS, or Windows), clone/pull your repository, and run your project directly."
+                    description={
+                        <>
+                            <p>Open the FullStacked app on your device, clone/pull your repository, and run your project directly.</p>
+                            <p>FullStacked v1 is currently available on <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">TestFlight</a> for macOS, iPadOS, and iOS. Android, Windows, and Linux coming soon!</p>
+                        </>
+                    }
                     codeBlock={
                         <CodeWindow title="FullStacked App" rawCode={`git clone my-awesome-project
 cd my-awesome-project
