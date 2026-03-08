@@ -559,3 +559,8 @@ blockquote {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+#major-quote {
+    text-align: center;
+    font-size: larger;
+}
