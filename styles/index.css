@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+    :root {
+        --background: #020617;
+        /* Slate 950 */
+        --foreground: #ffffff;
+        --primary: #0ea5e9;
+        /* Sky 500 */
+        --primary-glow: rgba(14, 165, 233, 0.5);
+        --secondary: #0284c7;
+        /* Sky 600 */
+        --accent: #22d3ee;
+        /* Cyan 400 */
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --card-border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+        @apply bg-[#020617] text-white antialiased overflow-x-hidden font-sans;
+    }
+}
+
+@layer components {
+    .glass-card {
+        @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl;
+    }
+
+    .gradient-text {
+        @apply bg-clip-text text-transparent bg-gradient-to-br from-sky-400 to-cyan-400;
+    }
+
+    .btn-primary {
+        @apply px-8 py-3 bg-sky-600 text-white rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5;
+        box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
+    }
+
+    .btn-secondary {
+        @apply px-8 py-3 bg-transparent text-white border border-white/10 rounded-lg font-semibold transition-all duration-300 hover:bg-white/5 hover:border-sky-500;
+    }
+}
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .text-glow {
+        text-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

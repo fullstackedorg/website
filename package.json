@@ -1,0 +1,15 @@
+{
+  "name": "fullstacked-website",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "fullstacked",
+    "deploy": "fullstacked . -b && node inject.js && npx wrangler pages deploy out"
+  },
+  "dependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "fullstacked": "^1.0.0-alpha-1584",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
