@@ -18,7 +18,7 @@ const Hero: React.FC = () => {
                     <a href="https://fullstacked.notion.site/FullStacked-v1-21d47d89d19a80429cb2f85dcf71fdc9" target="_blank" rel="noopener noreferrer" className="btn-secondary w-full md:w-auto text-center inline-block">Track Progress</a>
                 </div>
             </div>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[80vh] bg-[radial-gradient(circle,rgba(14,165,233,0.1)_0%,transparent_70%)] pointer-events-none -z-0"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150vw] sm:w-[100vw] md:w-[80vw] h-[60vh] sm:h-[80vh] bg-[radial-gradient(circle,rgba(14,165,233,0.1)_0%,transparent_70%)] pointer-events-none -z-0"></div>
         </section>
     );
 };

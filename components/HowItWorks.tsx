@@ -49,8 +49,8 @@ const StepRow: React.FC<{
     description: React.ReactNode;
     codeBlock: React.ReactNode;
 }> = ({ number, title, description, codeBlock }) => (
-    <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 py-16 border-b border-white/5 last:border-0 animate-fade-in opacity-0 [animation-fill-mode:forwards]">
-        <div className="flex-1 space-y-6 text-center lg:text-left">
+    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20 py-16 border-b border-white/5 last:border-0 animate-fade-in opacity-0 [animation-fill-mode:forwards]">
+        <div className="flex-1 space-y-6 text-left">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-400 font-bold text-xl mb-2 shadow-[0_0_15px_rgba(14,165,233,0.2)]">
                 {number}
             </div>
