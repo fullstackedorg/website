@@ -16,9 +16,9 @@
         --card-border: rgba(255, 255, 255, 0.1);
     }
 
+    html,
     body {
-        overflow-x: hidden;
-        @apply bg-[#020617] text-white antialiased overflow-x-hidden font-sans;
+        @apply bg-[#020617] text-white antialiased overflow-x-hidden font-sans w-full max-w-full;
     }
 }
 

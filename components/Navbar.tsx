@@ -3,7 +3,7 @@ import appIcon from "../fullstacked-v1.png"
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] max-w-[1200px] z-[1000] py-3 rounded-full glass-card animate-fade-in">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] max-w-[1200px] z-[1000] py-3 rounded-full glass-card animate-fade-in overflow-hidden">
       <div className="w-full px-5 sm:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 font-bold text-xl">
