@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
                     The <span className="gradient-text text-glow">Portable JavaScript Runtime.</span>
                 </h1>
                 <p className="text-xl md:text-2xl max-w-[800px] mx-auto mb-14 text-white/70 leading-relaxed font-sans">
-                    FullStacked is a single environment that runs JavaScript and TypeScript projects. It supports both <b>Browser and Node.js APIs</b> within the same file. Skip the server and ship straight to the user. Build locally, share with Git, and run everything on-device without any cloud infrastructure.
+                    FullStacked is a single environment that runs JavaScript and TypeScript projects supporting both <b>Browser and Node.js APIs</b> within the same file. Skip the server and ship straight to the user. Build locally, share with Git, and run everything on-device without any cloud infrastructure.
                 </p>
                 <div className="flex flex-col md:flex-row gap-6 justify-center">
                     <a href="#how-it-works" className="btn-primary w-full md:w-auto text-center inline-block">Get Started</a>
