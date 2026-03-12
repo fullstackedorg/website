@@ -146,8 +146,7 @@ git push`}>
                     description={
                         <>
                             <p>Open the FullStacked app on your device, clone/pull your repository, and run your project directly.</p>
-                            <p>FullStacked v1 is currently available on <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">TestFlight</a> for iPadOS and iOS.</p>
-                            <p>We are experiencing some issues with the wait time on AppStoreConnect for the macOS app.</p>
+                            <p>FullStacked v1 is currently available on <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">TestFlight</a> for macOS, iPadOS and iOS.</p>
                             <p>Android, Windows, and Linux will be available soon!</p>
                         </>
                     }
