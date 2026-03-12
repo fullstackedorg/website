@@ -80,7 +80,7 @@ const HowItWorks: React.FC = () => {
                     description={
                         <>
                             <p>Initialize your JavaScript or TypeScript project and install the FullStacked package.</p>
-                            <p className="text-sm font-semibold text-sky-400/80 italic mt-2">Note: only the darwin-arm64 binary is currently released. More platforms are coming soon!</p>
+                            <p className="text-sm font-semibold text-sky-400/80 italic mt-2">Note: only the darwin-arm64 (Apple Silicon) binary is currently released. More platforms are coming soon!</p>
                         </>
                     }
                     codeBlock={
