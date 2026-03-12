@@ -77,7 +77,12 @@ const HowItWorks: React.FC = () => {
                 <StepRow
                     number="1"
                     title="Install FullStacked"
-                    description="Initialize your JavaScript or TypeScript project and install the FullStacked runtime package."
+                    description={
+                        <>
+                            <p>Initialize your JavaScript or TypeScript project and install the FullStacked package.</p>
+                            <p className="text-sm font-semibold text-sky-400/80 italic mt-2">Note: only the darwin-arm64 binary is currently released. More platforms are coming soon!</p>
+                        </>
+                    }
                     codeBlock={
                         <CodeWindow title="terminal" rawCode="npm i fullstacked@alpha">
                             <span className="text-sky-400">$</span> npm i fullstacked@alpha
