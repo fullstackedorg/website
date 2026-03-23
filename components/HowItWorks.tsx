@@ -77,12 +77,7 @@ const HowItWorks: React.FC = () => {
                 <StepRow
                     number="1"
                     title="Install FullStacked"
-                    description={
-                        <>
-                            <p>Initialize your JavaScript or TypeScript project and install the FullStacked package.</p>
-                            <p className="text-sm font-semibold text-sky-400/80 italic mt-2">Note: only the darwin-arm64 (Apple Silicon) binary is currently released. More platforms are coming soon!</p>
-                        </>
-                    }
+                    description="Initialize your JavaScript or TypeScript project and install the FullStacked package."
                     codeBlock={
                         <CodeWindow title="terminal" rawCode="npm i fullstacked@alpha">
                             <span className="text-sky-400">$</span> npm i fullstacked@alpha
@@ -148,13 +143,7 @@ git push`}>
                 <StepRow
                     number="5"
                     title="Pull & Run Anywhere"
-                    description={
-                        <>
-                            <p>Open the FullStacked app on your device, clone/pull your repository, and run your project directly.</p>
-                            <p>FullStacked v1 is currently available on <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">TestFlight</a> for macOS, iPadOS and iOS.</p>
-                            <p>Android, Windows, and Linux will be available soon!</p>
-                        </>
-                    }
+                    description="Open the FullStacked app on your device, clone/pull your repository, and run your project directly."
                     codeBlock={
                         <CodeWindow title="FullStacked App" rawCode={`git clone my-awesome-project
 cd my-awesome-project

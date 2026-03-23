@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
+import Download from "./components/Download";
 import Footer from "./components/Footer";
 import "./styles/index.css";
 
@@ -12,6 +13,7 @@ const App: React.FC = () => {
             <main className="flex-grow overflow-hidden">
                 <Hero />
                 <HowItWorks />
+                <Download />
             </main>
             <Footer />
         </div>

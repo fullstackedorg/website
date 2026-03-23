@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 37.19 36.99">
+    <defs>
+        <linearGradient id="linear-gradient" x1="14.51" y1="34.29" x2="2.03" y2="18.78" gradientTransform="translate(0 35.98) scale(1 -1)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="currentColor"></stop>
+            <stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+        </linearGradient>
+        <linearGradient id="linear-gradient-2" x1="4.81" y1="5.81" x2="21.38" y2="2.8" gradientTransform="translate(0 35.98) scale(1 -1)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="currentColor"></stop>
+            <stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+        </linearGradient>
+        <linearGradient id="linear-gradient-3" x1="33.72" y1="9.81" x2="30.29" y2="29.16" gradientTransform="translate(0 35.98) scale(1 -1)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="currentColor"></stop>
+            <stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+        </linearGradient>
+    </defs>
+    <path d="m4.49,18.49H0C0,8.48,8,.3,17.94,0c.18,0-.13.99.06.99l.5,3.49c-7.73,0-14.01,6.29-14.01,14.01Z" fill="url(#linear-gradient)"></path>
+    <path d="m18.5,36.99c-6.46,0-12.34-3.28-15.74-8.78l3.81-2.36c2.58,4.17,7.04,6.65,11.93,6.65,1.79,0,3.53-.33,5.17-.98l1.66,4.17c-2.17.86-4.47,1.3-6.82,1.3Z" fill="url(#linear-gradient-2)"></path>
+    <path d="m34.79,28.52l-3.9-2.21c1.19-2.1,1.82-4.49,1.82-6.91,0-5.14-2.81-9.87-7.34-12.33l2.14-3.94c5.97,3.24,9.68,9.48,9.68,16.27,0,3.2-.83,6.35-2.4,9.12Z" fill="url(#linear-gradient-3)"></path>
+    <path d="m17.73,17.31s.42.73,1.27.68,1.09-.76,1.16-1.03.85-9.76.85-10.22-.39-1.41-.56-2.01-1.18-3.72-1.34-4.1c-.32-.73-1.98-1.01-2.22.33-.21,1.12-.88,10.3-.88,10.3,0,0,0,.79.32,1.82.32,1.03,1.41,4.24,1.41,4.24Z" fill="currentColor"></path>
+    <path d="m17.85,19.95s.4-.75-.09-1.44-1.22-.53-1.49-.45c-.27.08-8.74,4.41-9.14,4.65s-1,1.07-1.41,1.54-2.55,2.96-2.78,3.3c-.46.66.18,2.21,1.45,1.72,1.06-.41,9.22-4.67,9.22-4.67,0,0,.67-.42,1.38-1.23.71-.81,2.86-3.43,2.86-3.43Z" fill="currentColor"></path>
+    <path d="m20.15,19.95s-.4-.75.09-1.44,1.22-.53,1.49-.45c.27.08,8.74,4.41,9.14,4.65s1,1.07,1.41,1.54,2.55,2.96,2.78,3.3c.46.66-.18,2.21-1.45,1.72-1.06-.41-9.22-4.67-9.22-4.67,0,0-.67-.42-1.38-1.23s-2.86-3.43-2.86-3.43Z" fill="currentColor"></path>
+</svg>

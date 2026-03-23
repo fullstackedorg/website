@@ -1,0 +1,183 @@
+import React, { useState } from "react";
+import nodejsIcon from "../icons/nodejs.svg";
+import npmIcon from "../icons/npm.svg";
+import iosIcon from "../icons/ios.svg";
+import macosIcon from "../icons/macos.svg";
+import testflightIcon from "../icons/testflight.svg";
+import windowsIcon from "../icons/windows.svg";
+import microsoftStoreIcon from "../icons/microsoft-store.svg";
+import androidIcon from "../icons/android.svg";
+import playStoreIcon from "../icons/play-store.svg";
+import linuxIcon from "../icons/linux.svg";
+import chromebookIcon from "../icons/chromebook.svg";
+
+const PlatformCard: React.FC<{
+    title: string;
+    description: React.ReactNode;
+    icons: React.ReactNode;
+    children?: React.ReactNode;
+    comingSoon?: boolean;
+}> = ({ title, description, icons, children, comingSoon }) => {
+    return (
+        <div className={`rounded-xl overflow-hidden border border-white/10 bg-[#060a15] shadow-2xl relative w-full group transition-all duration-300 ${comingSoon ? 'opacity-70 grayscale-[0.5]' : 'hover:border-sky-500/50 hover:shadow-sky-500/10 hover:-translate-y-1'} flex flex-col h-full`}>
+            {comingSoon && (
+                <div className="absolute top-4 right-4 bg-white/10 text-white/60 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
+                    Coming Soon
+                </div>
+            )}
+            <div className={`p-8 flex-1 flex flex-col ${comingSoon ? 'opacity-50' : ''}`}>
+                <div className="flex gap-5 mb-6 items-center min-h-[2.5rem]">
+                    {icons}
+                </div>
+                <h3 className="text-2xl font-bold tracking-tight mb-3 flex items-center gap-2">
+                    {title}
+                </h3>
+                <div className="text-white/60 text-[0.95rem] leading-relaxed mb-8 flex-1">
+                    {description}
+                </div>
+                <div className="mt-auto">
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const Download: React.FC = () => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText("npm i fullstacked@alpha");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <section id="download" className="container mx-auto px-8 py-24 relative">
+            <div className="text-center mb-16 animate-fade-in relative z-10">
+                <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Available <span className="text-sky-400">Platforms</span></h2>
+                <p className="text-xl text-white/60 max-w-2xl mx-auto">Install FullStacked v1 in your projects and download the native apps.</p>
+            </div>
+
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Node.js NPM Package */}
+                <PlatformCard
+                    title="Node.js Package"
+                    description={
+                        <div className="space-y-4">
+                            <p>Available on npm. Install the FullStacked v1 package globally or in your project.</p>
+                            <div>
+                                <div className="text-xs uppercase tracking-wider font-semibold text-white/40 mb-2">Supported Architectures</div>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {['darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64'].map(arch => (
+                                        <span key={arch} className="text-[10px] bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-white/70 font-mono tracking-wider">
+                                            {arch}
+                                        </span>
+                                    ))}
+                                    {['linux-arm64', 'linux-x64'].map(arch => (
+                                        <span key={arch} className="text-[10px] bg-white/5 border border-white/10 border-dashed rounded px-1.5 py-0.5 text-white/30 font-mono tracking-wider cursor-not-allowed" title="Coming Soon">
+                                            {arch}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    icons={
+                        <img src={nodejsIcon} alt="Node.js" className="h-8 w-auto object-contain brightness-0 invert" />
+                    }
+                >
+                    <div className="flex flex-col gap-3 mt-auto">
+                        <div className="bg-[#020617] border border-white/10 rounded-lg p-4 font-mono text-sm flex items-center justify-between group-hover:border-sky-500/30 transition-colors">
+                            <span className="text-sky-300">npm i fullstacked@alpha</span>
+                            <button
+                                onClick={handleCopy}
+                                className={`flex items-center justify-center w-7 h-7 rounded transition-colors ${copied ? 'bg-green-500/10' : 'hover:bg-white/5 disabled:opacity-50'}`}
+                                title="Copy to clipboard"
+                                disabled={copied}
+                            >
+                                {copied ? (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-green-400">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white/40 hover:text-white transition-colors">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                        <a href="https://www.npmjs.com/package/fullstacked/v/alpha" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2.5 w-full bg-white/5 hover:bg-white/10 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/20">
+                            <img src={npmIcon} alt="npm" className="h-3.5 w-auto brightness-0 invert opacity-80" />
+                            View on npmjs
+                        </a>
+                    </div>
+                </PlatformCard>
+
+                {/* Alpha Apps */}
+                <PlatformCard
+                    title="Apple Ecosystem"
+                    description="Get the FullStacked v1 app on your iPhone, iPad, or Mac via TestFlight."
+                    icons={
+                        <>
+                            <img src={iosIcon} alt="iOS" className="h-6 w-auto object-contain brightness-0 invert" />
+                            <img src={macosIcon} alt="macOS" className="h-8 w-auto object-contain brightness-0 invert" />
+                        </>
+                    }
+                >
+                    <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                        <img src={testflightIcon} alt="TestFlight" className="w-5 h-5 brightness-0 invert" />
+                        Download on TestFlight
+                    </a>
+                </PlatformCard>
+
+                <PlatformCard
+                    title="Windows"
+                    description="Get the FullStacked v1 app natively on your Windows device."
+                    icons={
+                        <img src={windowsIcon} alt="Windows" className="h-7 w-auto object-contain brightness-0 invert" />
+                    }
+                >
+                    <a href="https://apps.microsoft.com/detail/9PFHHQ64415S" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30">
+                        <img src={microsoftStoreIcon} alt="Microsoft Store" className="w-5 h-5 brightness-0 invert" />
+                        Get from Microsoft Store
+                    </a>
+                </PlatformCard>
+
+                {/* Coming Soon */}
+                <PlatformCard
+                    title="Android & ChromeOS"
+                    description="FullStacked native app for Android and ChromeOS devices. Stay tuned for the upcoming v1 release."
+                    icons={
+                        <>
+                            <img src={androidIcon} alt="Android" className="h-7 w-auto object-contain brightness-0 invert" />
+                            <img src={chromebookIcon} alt="ChromeOS" className="h-5 w-auto object-contain brightness-0 invert" />
+                        </>
+                    }
+                    comingSoon={true}
+                >
+                    <button disabled className="flex items-center justify-center gap-3 w-full bg-white/5 text-white/30 font-medium py-3 rounded-lg cursor-not-allowed border border-white/5">
+                        <img src={playStoreIcon} alt="Google Play" className="w-5 h-5 opacity-30 brightness-0 invert" />
+                        Google Play (Soon)
+                    </button>
+                </PlatformCard>
+
+                <PlatformCard
+                    title="Linux"
+                    description="Native support for Linux distributions is currently in development."
+                    icons={
+                        <img src={linuxIcon} alt="Linux" className="h-8 w-auto object-contain brightness-0 invert" />
+                    }
+                    comingSoon={true}
+                >
+                    <button disabled className="flex items-center justify-center gap-2 w-full bg-white/5 text-white/30 font-medium py-3 rounded-lg cursor-not-allowed border border-white/5">
+                        Available Soon
+                    </button>
+                </PlatformCard>
+            </div>
+        </section>
+    );
+};
+
+export default Download;
