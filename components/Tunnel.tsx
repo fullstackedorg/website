@@ -23,7 +23,7 @@ const Tunnel: React.FC = () => {
                         Secure <span className="text-sky-400">Tunnel</span>
                     </h2>
                     <p className="text-lg text-white/60 leading-relaxed font-sans max-w-xl">
-                        Projects built with FullStacked are inherently local-first and distributed. But when you need centralized data, FullStacked Tunnel bridges the gap. It provides secure, easy to setup tunnels for native sockets, allowing to effortlessly connect back to your databases and other services like LLMs, S3, etc.
+                        Projects built with FullStacked are inherently local-first and distributed. But when you need centralized data, FullStacked Tunnel bridges the gap. It provides secure, easy to setup tunnels for native sockets, allowing to effortlessly connect back to your databases and other services like LLM, S3, MQTT, etc.
                     </p>
                     <div className="pt-2">
                         <a href="https://tunnel.fullstacked.cloud" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-medium transition-colors shadow-lg shadow-sky-500/20 self-start group/cta">
