@@ -20,7 +20,7 @@ const Tunnel: React.FC = () => {
                         FullStacked Tunnel
                     </div>
                     <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-                        Secured <span className="text-sky-400">Tunnel</span>
+                        Secure <span className="text-sky-400">Tunnel</span>
                     </h2>
                     <p className="text-lg text-white/60 leading-relaxed font-sans max-w-xl">
                         Projects built with FullStacked are inherently local-first and distributed. But when you need centralized data, FullStacked Tunnel bridges the gap. It provides secure, easy to setup tunnels for native sockets, allowing to effortlessly connect back to your databases and other services like LLMs, S3, etc.
