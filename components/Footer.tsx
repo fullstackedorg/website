@@ -3,7 +3,7 @@ import appIcon from "../fullstacked-v1.png";
 
 const Footer: React.FC = () => {
     return (
-        <footer className="container mx-auto px-8 py-16 border-t border-white/10 mt-16 text-center animate-fade-in [animation-delay:400ms]">
+        <footer className="container mx-auto px-8 py-16 mt-16 text-center animate-fade-in [animation-delay:400ms]">
             <div className="flex flex-col gap-10 items-center">
                 <div className="flex items-center justify-center">
                     <img src={appIcon} alt="FullStacked Logo" className="w-10 h-10 rounded-xl shadow-sm shadow-sky-500/20 opacity-80 transition-all duration-300" />
