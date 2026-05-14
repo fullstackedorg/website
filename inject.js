@@ -69,9 +69,3 @@ function injectHtml() {
 }
 
 injectHtml();
-
-
-const jsFile = "out/index.tsx.js"
-const jsContent = fs.readFileSync(jsFile, 'utf-8')
-    .replace("function platform() {", "function platform() { return null;")
-fs.writeFileSync(jsFile, jsContent);

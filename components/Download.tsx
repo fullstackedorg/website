@@ -69,13 +69,8 @@ const Download: React.FC = () => {
                             <div>
                                 <div className="text-xs uppercase tracking-wider font-semibold text-white/40 mb-2">Supported Architectures</div>
                                 <div className="flex flex-wrap gap-1.5">
-                                    {['darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64'].map(arch => (
+                                    {['darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64', 'linux-arm64', 'linux-x64'].map(arch => (
                                         <span key={arch} className="text-[10px] bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-white/70 font-mono tracking-wider">
-                                            {arch}
-                                        </span>
-                                    ))}
-                                    {['linux-arm64', 'linux-x64'].map(arch => (
-                                        <span key={arch} className="text-[10px] bg-white/5 border border-white/10 border-dashed rounded px-1.5 py-0.5 text-white/30 font-mono tracking-wider cursor-not-allowed" title="Coming Soon">
                                             {arch}
                                         </span>
                                     ))}

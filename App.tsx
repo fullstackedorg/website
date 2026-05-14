@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
-import Tunnel from "./components/Tunnel";
+import Cloud from "./components/Cloud";
 import Download from "./components/Download";
 import Footer from "./components/Footer";
 import "./styles/index.css";
@@ -15,7 +15,7 @@ const App: React.FC = () => {
                 <Hero />
                 <HowItWorks />
                 <Download />
-                <Tunnel />
+                <Cloud />
             </main>
             <Footer />
         </div>
