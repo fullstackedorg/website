@@ -9,6 +9,8 @@ function injectHtml() {
         return;
     }
 
+    fs.copyFileSync(path.join(__dirname, '404.html'), path.join(__dirname, 'out', '404.html'));
+
     let html = fs.readFileSync(indexPath, 'utf-8');
 
     const outDir = path.join(__dirname, 'out');
