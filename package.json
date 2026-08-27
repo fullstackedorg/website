@@ -2,13 +2,14 @@
   "name": "fullstacked-website",
   "version": "1.0.0",
   "scripts": {
-    "start": "fullstacked",
-    "deploy": "fullstacked . -b && node inject.js && npx wrangler pages deploy out"
+    "start": "fullstacked -p @fullstacked/tailwindcss",
+    "deploy": "fullstacked -p @fullstacked/tailwindcss -b && node inject.js && npx wrangler pages deploy out"
   },
   "dependencies": {
+    "@fullstacked/tailwindcss": "^4.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "fullstacked": "^1.0.0-alpha.1670",
+    "fullstacked": "^1.0.0-alpha.1774",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   }

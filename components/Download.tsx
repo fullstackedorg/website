@@ -140,23 +140,23 @@ const Download: React.FC = () => {
                     </a>
                 </PlatformCard>
 
-                {/* Coming Soon */}
                 <PlatformCard
                     title="Android & ChromeOS"
-                    description="FullStacked native app for Android and ChromeOS devices. Stay tuned for the upcoming v1 release."
+                    description="Get the FullStacked v1 app on your Android and ChromeOS devices."
                     icons={
                         <>
                             <img src={androidIcon} alt="Android" className="h-7 w-auto object-contain brightness-0 invert" />
                             <img src={chromebookIcon} alt="ChromeOS" className="h-5 w-auto object-contain brightness-0 invert" />
                         </>
                     }
-                    comingSoon={true}
                 >
-                    <button disabled className="flex items-center justify-center gap-3 w-full bg-white/5 text-white/30 font-medium py-3 rounded-lg cursor-not-allowed border border-white/5">
-                        <img src={playStoreIcon} alt="Google Play" className="w-5 h-5 opacity-30 brightness-0 invert" />
-                        Google Play (Soon)
-                    </button>
+                    <a href="https://play.google.com/store/apps/details?id=org.fullstacked" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30">
+                        <img src={playStoreIcon} alt="Google Play" className="w-5 h-5 brightness-0 invert" />
+                        Get from Google Play
+                    </a>
                 </PlatformCard>
+
+                {/* Coming Soon */}
 
                 <PlatformCard
                     title="Linux"
