@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import nodejsIcon from "../icons/nodejs.svg";
 import npmIcon from "../icons/npm.svg";
 import iosIcon from "../icons/ios.svg";
@@ -10,6 +10,37 @@ import androidIcon from "../icons/android.svg";
 import playStoreIcon from "../icons/play-store.svg";
 import linuxIcon from "../icons/linux.svg";
 import chromebookIcon from "../icons/chromebook.svg";
+
+type OS = "apple" | "windows" | "android" | "linux" | null;
+
+const detectOS = (): OS => {
+    if (typeof window === "undefined" || !window.navigator) return null;
+    const nav = window.navigator as any;
+    const ua = nav.userAgent || "";
+    const platform = nav.userAgentData?.platform || nav.platform || "";
+
+    if (/android|cros/i.test(ua) || /android|chrome os/i.test(platform)) {
+        return "android";
+    }
+
+    if (
+        /iphone|ipad|ipod|macintosh|mac os x/i.test(ua) ||
+        /mac|ios/i.test(platform) ||
+        (/macintel/i.test(platform) && nav.maxTouchPoints > 1)
+    ) {
+        return "apple";
+    }
+
+    if (/windows|win32|win64|wow64/i.test(ua) || /win/i.test(platform)) {
+        return "windows";
+    }
+
+    if (/linux/i.test(ua) || /linux/i.test(platform)) {
+        return "linux";
+    }
+
+    return null;
+};
 
 const PlatformCard: React.FC<{
     title: string;
@@ -45,6 +76,16 @@ const PlatformCard: React.FC<{
 
 const Download: React.FC = () => {
     const [copied, setCopied] = useState(false);
+    const [detectedOS, setDetectedOS] = useState<OS>(() => detectOS());
+
+    useEffect(() => {
+        setDetectedOS(detectOS());
+    }, []);
+
+    const getButtonClass = (isPrimary: boolean) =>
+        isPrimary
+            ? "flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20"
+            : "flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30";
 
     const handleCopy = () => {
         navigator.clipboard.writeText("npm i fullstacked@alpha");
@@ -121,7 +162,7 @@ const Download: React.FC = () => {
                         </>
                     }
                 >
-                    <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                    <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className={getButtonClass(detectedOS === "apple" || !detectedOS)}>
                         <img src={testflightIcon} alt="TestFlight" className="w-5 h-5 brightness-0 invert" />
                         Download on TestFlight
                     </a>
@@ -134,7 +175,7 @@ const Download: React.FC = () => {
                         <img src={windowsIcon} alt="Windows" className="h-7 w-auto object-contain brightness-0 invert" />
                     }
                 >
-                    <a href="https://apps.microsoft.com/detail/9PFHHQ64415S" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30">
+                    <a href="https://apps.microsoft.com/detail/9PFHHQ64415S" target="_blank" rel="noopener noreferrer" className={getButtonClass(detectedOS === "windows")}>
                         <img src={microsoftStoreIcon} alt="Microsoft Store" className="w-5 h-5 brightness-0 invert" />
                         Get from Microsoft Store
                     </a>
@@ -142,7 +183,45 @@ const Download: React.FC = () => {
 
                 <PlatformCard
                     title="Android & ChromeOS"
-                    description="Get the FullStacked v1 app on your Android and ChromeOS devices."
+                    description={
+                        <div className="space-y-4">
+                            <p>Get the FullStacked v1 app on your Android or Chromebook via Play Store:</p>
+                            <ol className="space-y-2.5 text-sm">
+                                <li className="flex items-start gap-2.5">
+                                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">1</span>
+                                    <div className="flex-1">
+                                        <a href="https://groups.google.com/u/0/g/fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
+                                            Join Google Group
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                <polyline points="15 3 21 3 21 9"></polyline>
+                                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li className="flex items-start gap-2.5">
+                                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">2</span>
+                                    <div className="flex-1">
+                                        <a href="https://play.google.com/apps/testing/org.fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
+                                            Become a Tester
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                <polyline points="15 3 21 3 21 9"></polyline>
+                                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li className="flex items-start gap-2.5">
+                                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">3</span>
+                                    <div className="flex-1">
+                                        <span className="text-white/80 font-medium">Download on Google Play</span>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    }
                     icons={
                         <>
                             <img src={androidIcon} alt="Android" className="h-7 w-auto object-contain brightness-0 invert" />
@@ -150,7 +229,7 @@ const Download: React.FC = () => {
                         </>
                     }
                 >
-                    <a href="https://play.google.com/store/apps/details?id=org.fullstacked" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30">
+                    <a href="https://play.google.com/store/apps/details?id=org.fullstacked" target="_blank" rel="noopener noreferrer" className={getButtonClass(detectedOS === "android")}>
                         <img src={playStoreIcon} alt="Google Play" className="w-5 h-5 brightness-0 invert" />
                         Get from Google Play
                     </a>

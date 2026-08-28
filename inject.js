@@ -15,7 +15,7 @@ function injectHtml() {
 
     const outDir = path.join(__dirname, 'out');
     const files = fs.readdirSync(outDir);
-    const pngFile = files.find(f => f.endsWith('.png'));
+    const pngFile = files.find(f => f.endsWith('.png') && f.startsWith("fullstacked"));
 
     // Array of HTML fragments to inject into the <head> section
     // You can easily add more meta tags or other elements here
