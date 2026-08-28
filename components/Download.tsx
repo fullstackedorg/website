@@ -45,36 +45,6 @@ const detectOS = (): OS => {
     return null;
 };
 
-const detectCpuArch = (): LinuxArch => {
-    if (typeof window === "undefined" || !window.navigator) return "x64";
-    const nav = window.navigator as any;
-    const ua = nav.userAgent || "";
-    const platform = nav.platform || "";
-    const arch = nav.userAgentData?.architecture || "";
-
-    // 1. Check direct strings in UA or platform
-    if (/arm64|aarch64|armv8|armv7|arm/i.test(ua) || /arm64|aarch64|armv8/i.test(platform) || /arm/i.test(arch)) {
-        return "arm64";
-    }
-
-    // 2. Check WebGL GPU renderer (unmasks Apple Silicon M1-M4 / Apple GPU, Adreno, Mali, etc.)
-    try {
-        const canvas = document.createElement("canvas");
-        const gl = (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")) as WebGLRenderingContext | null;
-        if (gl) {
-            const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-            const renderer = (debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) || "";
-            if (typeof renderer === "string" && renderer.length > 0) {
-                if (/apple\s*(m\d|gpu)|m[1-4]\s*(pro|max|ultra)?|adreno|snapdragon|mali|qualcomm|panfrost|asahi/i.test(renderer)) {
-                    return "arm64";
-                }
-            }
-        }
-    } catch (e) {}
-
-    return "x64";
-};
-
 const PlatformCard: React.FC<{
     title: string;
     description: React.ReactNode;
@@ -115,8 +85,7 @@ interface LinuxModalProps {
 }
 
 const LinuxModal: React.FC<LinuxModalProps> = ({ isOpen, onClose, version, isLoadingVersion }) => {
-    const [inferredArch, setInferredArch] = useState<LinuxArch>(() => detectCpuArch());
-    const [arch, setArch] = useState<LinuxArch>(() => detectCpuArch());
+    const [arch, setArch] = useState<LinuxArch>("x64");
     const [installType, setInstallType] = useState<LinuxInstallType>("deb");
     const [toolkit, setToolkit] = useState<LinuxToolkit>("gtk");
     const [depsCopied, setDepsCopied] = useState(false);
@@ -142,27 +111,6 @@ const LinuxModal: React.FC<LinuxModalProps> = ({ isOpen, onClose, version, isLoa
         setDebCopied(true);
         setTimeout(() => setDebCopied(false), 2000);
     };
-
-    useEffect(() => {
-        const detected = detectCpuArch();
-        setInferredArch(detected);
-        setArch(detected);
-
-        if (typeof window !== "undefined" && window.navigator) {
-            const nav = window.navigator as any;
-            if (nav.userAgentData?.getHighEntropyValues) {
-                nav.userAgentData.getHighEntropyValues(["architecture"]).then((values: any) => {
-                    if (values?.architecture === "arm") {
-                        setInferredArch("arm64");
-                        setArch("arm64");
-                    } else if (values?.architecture === "x86") {
-                        setInferredArch("x64");
-                        setArch("x64");
-                    }
-                }).catch(() => {});
-            }
-        }
-    }, [isOpen]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -237,9 +185,6 @@ const LinuxModal: React.FC<LinuxModalProps> = ({ isOpen, onClose, version, isLoa
                             }`}
                         >
                             <span>x86_64</span>
-                            {inferredArch === "x64" && (
-                                <span className="text-[10px] bg-sky-500/30 text-sky-200 px-1.5 py-0.5 rounded uppercase font-semibold">Detected</span>
-                            )}
                         </button>
                         <button
                             type="button"
@@ -251,9 +196,6 @@ const LinuxModal: React.FC<LinuxModalProps> = ({ isOpen, onClose, version, isLoa
                             }`}
                         >
                             <span>arm64</span>
-                            {inferredArch === "arm64" && (
-                                <span className="text-[10px] bg-sky-500/30 text-sky-200 px-1.5 py-0.5 rounded uppercase font-semibold">Detected</span>
-                            )}
                         </button>
                     </div>
                 </div>
