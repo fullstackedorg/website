@@ -12,6 +12,9 @@ import linuxIcon from "../icons/linux.svg";
 import chromebookIcon from "../icons/chromebook.svg";
 
 type OS = "apple" | "windows" | "android" | "linux" | null;
+type LinuxArch = "x64" | "arm64";
+type LinuxInstallType = "deb" | "tar.xz";
+type LinuxToolkit = "gtk" | "qt";
 
 const detectOS = (): OS => {
     if (typeof window === "undefined" || !window.navigator) return null;
@@ -40,6 +43,36 @@ const detectOS = (): OS => {
     }
 
     return null;
+};
+
+const detectCpuArch = (): LinuxArch => {
+    if (typeof window === "undefined" || !window.navigator) return "x64";
+    const nav = window.navigator as any;
+    const ua = nav.userAgent || "";
+    const platform = nav.platform || "";
+    const arch = nav.userAgentData?.architecture || "";
+
+    // 1. Check direct strings in UA or platform
+    if (/arm64|aarch64|armv8|armv7|arm/i.test(ua) || /arm64|aarch64|armv8/i.test(platform) || /arm/i.test(arch)) {
+        return "arm64";
+    }
+
+    // 2. Check WebGL GPU renderer (unmasks Apple Silicon M1-M4 / Apple GPU, Adreno, Mali, etc.)
+    try {
+        const canvas = document.createElement("canvas");
+        const gl = (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")) as WebGLRenderingContext | null;
+        if (gl) {
+            const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+            const renderer = (debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) || "";
+            if (typeof renderer === "string" && renderer.length > 0) {
+                if (/apple\s*(m\d|gpu)|m[1-4]\s*(pro|max|ultra)?|adreno|snapdragon|mali|qualcomm|panfrost|asahi/i.test(renderer)) {
+                    return "arm64";
+                }
+            }
+        }
+    } catch (e) {}
+
+    return "x64";
 };
 
 const PlatformCard: React.FC<{
@@ -74,18 +107,354 @@ const PlatformCard: React.FC<{
     );
 };
 
+interface LinuxModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    version: string;
+    isLoadingVersion: boolean;
+}
+
+const LinuxModal: React.FC<LinuxModalProps> = ({ isOpen, onClose, version, isLoadingVersion }) => {
+    const [inferredArch, setInferredArch] = useState<LinuxArch>(() => detectCpuArch());
+    const [arch, setArch] = useState<LinuxArch>(() => detectCpuArch());
+    const [installType, setInstallType] = useState<LinuxInstallType>("deb");
+    const [toolkit, setToolkit] = useState<LinuxToolkit>("gtk");
+    const [depsCopied, setDepsCopied] = useState(false);
+    const [debCopied, setDebCopied] = useState(false);
+
+    const filename = `fullstacked-${version}-linux-${arch}-${toolkit}.${installType}`;
+    const downloadUrl = `https://files.fullstacked.org/releases/${version}/${filename}`;
+
+    const depsCommand = toolkit === "gtk"
+        ? "sudo apt install libgtkmm-4.0-0 libwebkitgtk-6.0-4"
+        : "sudo apt install libqt6webenginewidgets6 libqt6webchannel6";
+
+    const debCommand = `sudo apt install ./${filename}\nfullstacked`;
+
+    const handleCopyDeps = () => {
+        navigator.clipboard.writeText(depsCommand);
+        setDepsCopied(true);
+        setTimeout(() => setDepsCopied(false), 2000);
+    };
+
+    const handleCopyDeb = () => {
+        navigator.clipboard.writeText(debCommand);
+        setDebCopied(true);
+        setTimeout(() => setDebCopied(false), 2000);
+    };
+
+    useEffect(() => {
+        const detected = detectCpuArch();
+        setInferredArch(detected);
+        setArch(detected);
+
+        if (typeof window !== "undefined" && window.navigator) {
+            const nav = window.navigator as any;
+            if (nav.userAgentData?.getHighEntropyValues) {
+                nav.userAgentData.getHighEntropyValues(["architecture"]).then((values: any) => {
+                    if (values?.architecture === "arm") {
+                        setInferredArch("arm64");
+                        setArch("arm64");
+                    } else if (values?.architecture === "x86") {
+                        setInferredArch("x64");
+                        setArch("x64");
+                    }
+                }).catch(() => {});
+            }
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+        if (isOpen) {
+            window.addEventListener("keydown", handleKeyDown);
+            document.body.style.overflow = "hidden";
+        }
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            document.body.style.overflow = "unset";
+        };
+    }, [isOpen, onClose]);
+
+    if (!isOpen) return null;
+
+    return (
+        <div
+            className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in"
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="linux-modal-title"
+        >
+            <div
+                className="relative w-full max-w-lg rounded-2xl border border-white/15 bg-[#060a15] p-6 sm:p-8 shadow-2xl space-y-6 text-left"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div className="flex items-center gap-3">
+                        <img src={linuxIcon} alt="Linux" className="h-7 w-auto object-contain brightness-0 invert" />
+                        <div>
+                            <h3 id="linux-modal-title" className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                                Download for Linux
+                            </h3>
+                            <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-xs text-white/50">Native application binary</span>
+                                <span className="text-[11px] bg-sky-500/20 text-sky-300 font-mono px-2 py-0.5 rounded-full border border-sky-400/30">
+                                    {isLoadingVersion ? "fetching..." : `v${version}`}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="text-white/40 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                        aria-label="Close modal"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Option: Architecture */}
+                <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-wider font-semibold text-white/60 block">Architecture</label>
+                    <div className="grid grid-cols-2 gap-2.5">
+                        <button
+                            type="button"
+                            onClick={() => setArch("x64")}
+                            className={`py-3 px-4 rounded-xl text-sm font-medium border transition-all text-center flex items-center justify-center gap-2 ${
+                                arch === "x64"
+                                    ? "bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                            <span>x86_64</span>
+                            {inferredArch === "x64" && (
+                                <span className="text-[10px] bg-sky-500/30 text-sky-200 px-1.5 py-0.5 rounded uppercase font-semibold">Detected</span>
+                            )}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setArch("arm64")}
+                            className={`py-3 px-4 rounded-xl text-sm font-medium border transition-all text-center flex items-center justify-center gap-2 ${
+                                arch === "arm64"
+                                    ? "bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                            <span>arm64</span>
+                            {inferredArch === "arm64" && (
+                                <span className="text-[10px] bg-sky-500/30 text-sky-200 px-1.5 py-0.5 rounded uppercase font-semibold">Detected</span>
+                            )}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Option: Installation Type */}
+                <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-wider font-semibold text-white/60 block">Installation Type</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <button
+                            type="button"
+                            onClick={() => setInstallType("deb")}
+                            className={`py-3 px-4 rounded-xl text-sm font-medium border transition-all text-left flex flex-col justify-center gap-0.5 ${
+                                installType === "deb"
+                                    ? "bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                            <span className="font-semibold">.deb Package</span>
+                            <span className="text-xs opacity-70">Recommended for Debian, Ubuntu</span>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setInstallType("tar.xz")}
+                            className={`py-3 px-4 rounded-xl text-sm font-medium border transition-all text-left flex flex-col justify-center gap-0.5 ${
+                                installType === "tar.xz"
+                                    ? "bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                            <span className="font-semibold">Standalone (.xz)</span>
+                            <span className="text-xs opacity-70">Portable .tar.xz archive</span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Option: GUI Toolkit */}
+                <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-wider font-semibold text-white/60 block">GUI Toolkit</label>
+                    <div className="grid grid-cols-2 gap-2.5">
+                        <button
+                            type="button"
+                            onClick={() => setToolkit("gtk")}
+                            className={`py-3 px-4 rounded-xl text-sm font-medium border transition-all text-left flex flex-col justify-center gap-0.5 ${
+                                toolkit === "gtk"
+                                    ? "bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                            <span className="font-semibold">GTK</span>
+                            <span className="text-xs opacity-70">WebKit engine</span>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setToolkit("qt")}
+                            className={`py-3 px-4 rounded-xl text-sm font-medium border transition-all text-left flex flex-col justify-center gap-0.5 ${
+                                toolkit === "qt"
+                                    ? "bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                            <span className="font-semibold">Qt</span>
+                            <span className="text-xs opacity-70">Chromium engine</span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* .deb Package Installation Instructions */}
+                {installType === "deb" && (
+                    <div className="space-y-2 animate-fade-in bg-white/5 border border-white/10 rounded-xl p-3.5 text-xs">
+                        <div className="text-white/80 flex items-center justify-between font-medium">
+                            <span>Install &amp; Run</span>
+                            <span className="text-[10px] bg-sky-500/20 text-sky-300 font-mono uppercase px-1.5 py-0.5 rounded border border-sky-400/30">
+                                APT
+                            </span>
+                        </div>
+                        <div className="bg-[#020617] border border-white/10 rounded-lg p-2.5 font-mono text-xs flex items-start justify-between gap-2 overflow-hidden">
+                            <div className="overflow-x-auto whitespace-pre py-0.5 flex-1 scrollbar-thin text-sky-300">
+                                {debCommand}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleCopyDeb}
+                                className={`flex-shrink-0 flex items-center justify-center w-6 h-6 rounded transition-colors mt-0.5 ${
+                                    debCopied ? "bg-green-500/10 text-green-400" : "hover:bg-white/10 text-white/40 hover:text-white"
+                                }`}
+                                title="Copy to clipboard"
+                                disabled={debCopied}
+                            >
+                                {debCopied ? (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Standalone Dependencies Notice */}
+                {installType === "tar.xz" && (
+                    <div className="space-y-2 animate-fade-in bg-white/5 border border-white/10 rounded-xl p-3.5 text-xs">
+                        <div className="text-white/80 flex items-center justify-between font-medium">
+                            <span>Install System Dependencies</span>
+                            <span className="text-[10px] bg-sky-500/20 text-sky-300 font-mono uppercase px-1.5 py-0.5 rounded border border-sky-400/30">
+                                {toolkit.toUpperCase()}
+                            </span>
+                        </div>
+                        <p className="text-white/50 text-[11px] leading-relaxed">
+                            Standalone binaries require these system dependencies to be installed manually:
+                        </p>
+                        <div className="bg-[#020617] border border-white/10 rounded-lg p-2.5 font-mono text-xs flex items-center justify-between gap-2 overflow-hidden">
+                            <div className="overflow-x-auto whitespace-nowrap py-0.5 flex-1 scrollbar-thin">
+                                <span className="text-sky-300">{depsCommand}</span>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleCopyDeps}
+                                className={`flex-shrink-0 flex items-center justify-center w-6 h-6 rounded transition-colors ${
+                                    depsCopied ? "bg-green-500/10 text-green-400" : "hover:bg-white/10 text-white/40 hover:text-white"
+                                }`}
+                                title="Copy to clipboard"
+                                disabled={depsCopied}
+                            >
+                                {depsCopied ? (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Download Button Section */}
+                <div className="pt-2 border-t border-white/10">
+                    <a
+                        href={downloadUrl}
+                        download={filename}
+                        className="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-lg transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 text-center cursor-pointer"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Download: React.FC = () => {
     const [copied, setCopied] = useState(false);
     const [detectedOS, setDetectedOS] = useState<OS>(() => detectOS());
+    const [isLinuxModalOpen, setIsLinuxModalOpen] = useState(false);
+    const [linuxVersion, setLinuxVersion] = useState("1.0.0-1780");
+    const [isLoadingVersion, setIsLoadingVersion] = useState(false);
+
+    const fetchLatestLinuxVersion = async () => {
+        setIsLoadingVersion(true);
+        try {
+            const res = await fetch("https://files.fullstacked.org/releases/beta.txt");
+            if (res.ok) {
+                const text = (await res.text()).trim();
+                if (text) {
+                    setLinuxVersion(text);
+                }
+            }
+        } catch (e) {
+            console.error("Failed to fetch latest Linux version", e);
+        } finally {
+            setIsLoadingVersion(false);
+        }
+    };
 
     useEffect(() => {
         setDetectedOS(detectOS());
+        fetchLatestLinuxVersion();
     }, []);
+
+    const handleOpenLinuxDialog = () => {
+        fetchLatestLinuxVersion();
+        setIsLinuxModalOpen(true);
+    };
 
     const getButtonClass = (isPrimary: boolean) =>
         isPrimary
-            ? "flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20"
-            : "flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30";
+            ? "flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20 cursor-pointer"
+            : "flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30 cursor-pointer";
 
     const handleCopy = () => {
         navigator.clipboard.writeText("npm i fullstacked@alpha");
@@ -235,21 +604,35 @@ const Download: React.FC = () => {
                     </a>
                 </PlatformCard>
 
-                {/* Coming Soon */}
-
                 <PlatformCard
                     title="Linux"
-                    description="Native support for Linux distributions is currently in development."
+                    description="Get the FullStacked v1 app natively on your Linux distribution."
                     icons={
                         <img src={linuxIcon} alt="Linux" className="h-8 w-auto object-contain brightness-0 invert" />
                     }
-                    comingSoon={true}
                 >
-                    <button disabled className="flex items-center justify-center gap-2 w-full bg-white/5 text-white/30 font-medium py-3 rounded-lg cursor-not-allowed border border-white/5">
-                        Available Soon
+                    <button
+                        type="button"
+                        onClick={handleOpenLinuxDialog}
+                        className={getButtonClass(detectedOS === "linux")}
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download for Linux
                     </button>
                 </PlatformCard>
             </div>
+
+            {/* Linux Download Dialog Modal */}
+            <LinuxModal
+                isOpen={isLinuxModalOpen}
+                onClose={() => setIsLinuxModalOpen(false)}
+                version={linuxVersion}
+                isLoadingVersion={isLoadingVersion}
+            />
         </section>
     );
 };
