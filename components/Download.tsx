@@ -404,6 +404,23 @@ const Download: React.FC = () => {
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const activePlatform: "apple" | "windows" | "android" | "linux" =
+        detectedOS && ["apple", "windows", "android", "linux"].includes(detectedOS)
+            ? (detectedOS as "apple" | "windows" | "android" | "linux")
+            : "apple";
+
+    const defaultNativePlatforms: Array<"apple" | "windows" | "android" | "linux"> = [
+        "apple",
+        "windows",
+        "android",
+        "linux",
+    ];
+
+    const orderedPlatforms = [
+        activePlatform,
+        ...defaultNativePlatforms.filter((p) => p !== activePlatform),
+    ];
+
     return (
         <section id="download" className="container mx-auto px-8 py-24 relative">
             <div className="text-center mb-16 animate-fade-in relative z-10">
@@ -412,8 +429,9 @@ const Download: React.FC = () => {
             </div>
 
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Node.js NPM Package */}
+                {/* Node.js NPM Package (Always First) */}
                 <PlatformCard
+                    key="nodejs"
                     title="Node.js Package"
                     description={
                         <div className="space-y-4">
@@ -462,110 +480,134 @@ const Download: React.FC = () => {
                     </div>
                 </PlatformCard>
 
-                {/* Alpha Apps */}
-                <PlatformCard
-                    title="Apple Ecosystem"
-                    description="Get the FullStacked v1 app on your iPhone, iPad, or Mac via TestFlight."
-                    icons={
-                        <>
-                            <img src={iosIcon} alt="iOS" className="h-6 w-auto object-contain brightness-0 invert" />
-                            <img src={macosIcon} alt="macOS" className="h-8 w-auto object-contain brightness-0 invert" />
-                        </>
+                {/* Native Platforms: Detected active platform is placed directly next to Node.js */}
+                {orderedPlatforms.map((platform) => {
+                    if (platform === "apple") {
+                        return (
+                            <PlatformCard
+                                key="apple"
+                                title="Apple Ecosystem"
+                                description="Get the FullStacked v1 app on your iPhone, iPad, or Mac via TestFlight."
+                                icons={
+                                    <>
+                                        <img src={iosIcon} alt="iOS" className="h-6 w-auto object-contain brightness-0 invert" />
+                                        <img src={macosIcon} alt="macOS" className="h-8 w-auto object-contain brightness-0 invert" />
+                                    </>
+                                }
+                            >
+                                <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className={getButtonClass(activePlatform === "apple")}>
+                                    <img src={testflightIcon} alt="TestFlight" className="w-5 h-5 brightness-0 invert" />
+                                    Download on TestFlight
+                                </a>
+                            </PlatformCard>
+                        );
                     }
-                >
-                    <a href="https://testflight.apple.com/join/CUYvvR4b" target="_blank" rel="noopener noreferrer" className={getButtonClass(detectedOS === "apple" || !detectedOS)}>
-                        <img src={testflightIcon} alt="TestFlight" className="w-5 h-5 brightness-0 invert" />
-                        Download on TestFlight
-                    </a>
-                </PlatformCard>
 
-                <PlatformCard
-                    title="Windows"
-                    description="Get the FullStacked v1 app natively on your Windows device."
-                    icons={
-                        <img src={windowsIcon} alt="Windows" className="h-7 w-auto object-contain brightness-0 invert" />
+                    if (platform === "windows") {
+                        return (
+                            <PlatformCard
+                                key="windows"
+                                title="Windows"
+                                description="Get the FullStacked v1 app natively on your Windows device."
+                                icons={
+                                    <img src={windowsIcon} alt="Windows" className="h-7 w-auto object-contain brightness-0 invert" />
+                                }
+                            >
+                                <a href="https://apps.microsoft.com/detail/9PFHHQ64415S" target="_blank" rel="noopener noreferrer" className={getButtonClass(activePlatform === "windows")}>
+                                    <img src={microsoftStoreIcon} alt="Microsoft Store" className="w-5 h-5 brightness-0 invert" />
+                                    Get from Microsoft Store
+                                </a>
+                            </PlatformCard>
+                        );
                     }
-                >
-                    <a href="https://apps.microsoft.com/detail/9PFHHQ64415S" target="_blank" rel="noopener noreferrer" className={getButtonClass(detectedOS === "windows")}>
-                        <img src={microsoftStoreIcon} alt="Microsoft Store" className="w-5 h-5 brightness-0 invert" />
-                        Get from Microsoft Store
-                    </a>
-                </PlatformCard>
 
-                <PlatformCard
-                    title="Android & ChromeOS"
-                    description={
-                        <div className="space-y-4">
-                            <p>Get the FullStacked v1 app on your Android or Chromebook via Play Store:</p>
-                            <ol className="space-y-2.5 text-sm">
-                                <li className="flex items-start gap-2.5">
-                                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">1</span>
-                                    <div className="flex-1">
-                                        <a href="https://groups.google.com/u/0/g/fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
-                                            Join Google Group
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
-                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                                <polyline points="15 3 21 3 21 9"></polyline>
-                                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                                            </svg>
-                                        </a>
+                    if (platform === "android") {
+                        return (
+                            <PlatformCard
+                                key="android"
+                                title="Android & ChromeOS"
+                                description={
+                                    <div className="space-y-4">
+                                        <p>Get the FullStacked v1 app on your Android or Chromebook via Play Store:</p>
+                                        <ol className="space-y-2.5 text-sm">
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">1</span>
+                                                <div className="flex-1">
+                                                    <a href="https://groups.google.com/u/0/g/fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
+                                                        Join Google Group
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
+                                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">2</span>
+                                                <div className="flex-1">
+                                                    <a href="https://play.google.com/apps/testing/org.fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
+                                                        Become a Tester
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
+                                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">3</span>
+                                                <div className="flex-1">
+                                                    <span className="text-white/80 font-medium">Download on Google Play</span>
+                                                </div>
+                                            </li>
+                                        </ol>
                                     </div>
-                                </li>
-                                <li className="flex items-start gap-2.5">
-                                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">2</span>
-                                    <div className="flex-1">
-                                        <a href="https://play.google.com/apps/testing/org.fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
-                                            Become a Tester
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
-                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                                <polyline points="15 3 21 3 21 9"></polyline>
-                                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li className="flex items-start gap-2.5">
-                                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">3</span>
-                                    <div className="flex-1">
-                                        <span className="text-white/80 font-medium">Download on Google Play</span>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
+                                }
+                                icons={
+                                    <>
+                                        <img src={androidIcon} alt="Android" className="h-7 w-auto object-contain brightness-0 invert" />
+                                        <img src={chromebookIcon} alt="ChromeOS" className="h-5 w-auto object-contain brightness-0 invert" />
+                                    </>
+                                }
+                            >
+                                <a href="https://play.google.com/store/apps/details?id=org.fullstacked" target="_blank" rel="noopener noreferrer" className={getButtonClass(activePlatform === "android")}>
+                                    <img src={playStoreIcon} alt="Google Play" className="w-5 h-5 brightness-0 invert" />
+                                    Get from Google Play
+                                </a>
+                            </PlatformCard>
+                        );
                     }
-                    icons={
-                        <>
-                            <img src={androidIcon} alt="Android" className="h-7 w-auto object-contain brightness-0 invert" />
-                            <img src={chromebookIcon} alt="ChromeOS" className="h-5 w-auto object-contain brightness-0 invert" />
-                        </>
-                    }
-                >
-                    <a href="https://play.google.com/store/apps/details?id=org.fullstacked" target="_blank" rel="noopener noreferrer" className={getButtonClass(detectedOS === "android")}>
-                        <img src={playStoreIcon} alt="Google Play" className="w-5 h-5 brightness-0 invert" />
-                        Get from Google Play
-                    </a>
-                </PlatformCard>
 
-                <PlatformCard
-                    title="Linux"
-                    description="Get the FullStacked v1 app natively on your Linux distribution."
-                    icons={
-                        <img src={linuxIcon} alt="Linux" className="h-8 w-auto object-contain brightness-0 invert" />
+                    if (platform === "linux") {
+                        return (
+                            <PlatformCard
+                                key="linux"
+                                title="Linux"
+                                description="Get the FullStacked v1 app natively on your Linux distribution."
+                                icons={
+                                    <img src={linuxIcon} alt="Linux" className="h-8 w-auto object-contain brightness-0 invert" />
+                                }
+                            >
+                                <button
+                                    type="button"
+                                    onClick={handleOpenLinuxDialog}
+                                    className={getButtonClass(activePlatform === "linux")}
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Download for Linux
+                                </button>
+                            </PlatformCard>
+                        );
                     }
-                >
-                    <button
-                        type="button"
-                        onClick={handleOpenLinuxDialog}
-                        className={getButtonClass(detectedOS === "linux")}
-                    >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        Download for Linux
-                    </button>
-                </PlatformCard>
+
+                    return null;
+                })}
             </div>
 
             {/* Linux Download Dialog Modal */}
