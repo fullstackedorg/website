@@ -10,7 +10,7 @@ const CodeWindow: React.FC<{ title: string; children: React.ReactNode; rawCode: 
     };
 
     return (
-        <div className="rounded-xl overflow-hidden border border-white/10 bg-[#060a15] shadow-2xl relative w-full group transition-all duration-300 hover:border-sky-500/50 hover:shadow-sky-500/10 hover:-translate-y-1">
+        <div className="rounded-xl overflow-hidden border border-white/10 bg-[#060a15] shadow-2xl relative w-full">
             <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10 relative">
                 <div className="flex gap-2 absolute left-4">
                     <div className="w-3 h-3 rounded-full bg-red-500/80"></div>

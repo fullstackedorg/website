@@ -26,9 +26,9 @@ const Cloud: React.FC = () => {
                         Projects built with FullStacked are inherently local-first and distributed. The FullStacked Cloud Platform elevates the experience of FullStacked to a pro level, providing secure access and management of your projects and other services like databases, LLMs, S3 storage, MQTT, and much more.
                     </p>
                     <div className="pt-2">
-                        <a href="https://auth.fullstacked.cloud" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-medium transition-colors shadow-lg shadow-sky-500/20 self-start group/cta">
+                        <a href="https://auth.fullstacked.cloud" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium transition-colors shadow-lg shadow-sky-500/20 self-start cursor-pointer">
                             Access FullStacked Cloud
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 transition-transform group-hover/cta:translate-x-1">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                                 <polyline points="12 5 19 12 12 19"></polyline>
                             </svg>
@@ -39,7 +39,7 @@ const Cloud: React.FC = () => {
                     <img
                         src={cloudImg}
                         alt="FullStacked Cloud"
-                        className="w-full h-auto lg:min-w-[50vw] object-contain relative z-10 transition-all duration-500 hover:-translate-y-2"
+                        className="w-full h-auto lg:min-w-[50vw] object-contain relative z-10"
                     />
                 </div>
             </div>

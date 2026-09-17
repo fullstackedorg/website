@@ -53,7 +53,7 @@ const PlatformCard: React.FC<{
     comingSoon?: boolean;
 }> = ({ title, description, icons, children, comingSoon }) => {
     return (
-        <div className={`rounded-xl overflow-hidden border border-white/10 bg-[#060a15] shadow-2xl relative w-full group transition-all duration-300 ${comingSoon ? 'opacity-70 grayscale-[0.5]' : 'hover:border-sky-500/50 hover:shadow-sky-500/10 hover:-translate-y-1'} flex flex-col h-full`}>
+        <div className={`rounded-xl overflow-hidden border border-white/10 bg-[#060a15] shadow-2xl relative w-full flex flex-col h-full ${comingSoon ? 'opacity-70 grayscale-[0.5]' : ''}`}>
             {comingSoon && (
                 <div className="absolute top-4 right-4 bg-white/10 text-white/60 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
                     Coming Soon
@@ -344,7 +344,7 @@ const LinuxModal: React.FC<LinuxModalProps> = ({ isOpen, onClose, version, isLoa
                     <a
                         href={downloadUrl}
                         download={filename}
-                        className="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-lg transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 text-center cursor-pointer"
+                        className="flex items-center justify-center gap-3 w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3.5 px-6 rounded-lg transition-colors shadow-lg shadow-sky-500/20 text-center cursor-pointer"
                     >
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -395,7 +395,7 @@ const Download: React.FC = () => {
 
     const getButtonClass = (isPrimary: boolean) =>
         isPrimary
-            ? "flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20 cursor-pointer"
+            ? "flex items-center justify-center gap-3 w-full bg-sky-600 hover:bg-sky-700 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-sky-500/20 cursor-pointer"
             : "flex items-center justify-center gap-3 w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-lg transition-colors border border-white/10 hover:border-white/30 cursor-pointer";
 
     const handleCopy = () => {
@@ -453,7 +453,7 @@ const Download: React.FC = () => {
                     }
                 >
                     <div className="flex flex-col gap-3 mt-auto">
-                        <div className="bg-[#020617] border border-white/10 rounded-lg p-4 font-mono text-sm flex items-center justify-between group-hover:border-sky-500/30 transition-colors">
+                        <div className="bg-[#020617] border border-white/10 rounded-lg p-4 font-mono text-sm flex items-center justify-between">
                             <span className="text-sky-300">npm i fullstacked@alpha</span>
                             <button
                                 onClick={handleCopy}
