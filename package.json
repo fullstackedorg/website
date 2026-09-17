@@ -9,7 +9,7 @@
     "@fullstacked/tailwindcss": "^4.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "fullstacked": "^1.0.0-alpha.1774",
+    "fullstacked": "^1.0.0-alpha.1804",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   }

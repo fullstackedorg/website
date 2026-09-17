@@ -533,8 +533,8 @@ const Download: React.FC = () => {
                                             <li className="flex items-start gap-2.5">
                                                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">1</span>
                                                 <div className="flex-1">
-                                                    <a href="https://groups.google.com/u/0/g/fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
-                                                        Join Google Group
+                                                    <a href="https://play.google.com/apps/testing/org.fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
+                                                        Join Tester Program
                                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
                                                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                                             <polyline points="15 3 21 3 21 9"></polyline>
@@ -545,19 +545,6 @@ const Download: React.FC = () => {
                                             </li>
                                             <li className="flex items-start gap-2.5">
                                                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">2</span>
-                                                <div className="flex-1">
-                                                    <a href="https://play.google.com/apps/testing/org.fullstacked" target="_blank" rel="noopener noreferrer" className="text-white hover:text-sky-400 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1">
-                                                        Become a Tester
-                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 opacity-60">
-                                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                                            <polyline points="15 3 21 3 21 9"></polyline>
-                                                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                                                        </svg>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                            <li className="flex items-start gap-2.5">
-                                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-semibold flex items-center justify-center border border-sky-400/30 mt-0.5">3</span>
                                                 <div className="flex-1">
                                                     <span className="text-white/80 font-medium">Download on Google Play</span>
                                                 </div>

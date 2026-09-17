@@ -5,9 +5,6 @@ const Hero: React.FC = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[150vw] sm:max-w-[100vw] h-[100vh] sm:h-[100vh] bg-[radial-gradient(closest-side,rgba(14,165,233,0.2)_0%,transparent_70%)] pointer-events-none -z-0"></div>
         <section className="container mx-auto px-8 pt-[10rem] sm:pt-[15rem] pb-32 text-center relative animate-fade-in">
             <div className="relative z-10">
-                <div className="inline-flex items-center justify-center px-4 py-1.5 mb-8 text-sm font-medium text-sky-300 bg-sky-500/10 border border-sky-400/20 rounded-full shadow-[0_0_15px_rgba(14,165,233,0.15)] backdrop-blur-sm">
-                    v1 now in alpha
-                </div>
                 <h1 className="text-4xl md:text-[4.5rem] font-extrabold leading-[1.1] mb-10 tracking-tight">
                     The <span className="gradient-text text-glow">Portable JavaScript Runtime.</span>
                 </h1>
